@@ -245,6 +245,11 @@ typedef struct
 #define NVIC_ISER     ((NVIC_RegDef_t*)NVIC_BASEADDR)
 #define NVIC_ICER     ((NVIC_ICER_RegDef_t*)NVIC_BASEADDR)
 // =========================================== Clock Enable and Disable =========================================== //
+
+#define DECLARATION_FUNCS(NAME,VALUE,REG)                       \
+        void NAME##_PCLK_EN(void);                              \
+        void NAME##_PCLK_DI(void);                              \
+
 #define GPIO_PCLK_CONFIGURE(func)                               \
         func(GPIOA, 0, AHB1ENR)                                 \
         func(GPIOB, 1, AHB1ENR)                                 \
@@ -256,16 +261,22 @@ typedef struct
         func(GPIOH, 7, AHB1ENR)                                 \
         func(GPIOI, 8, AHB1ENR)                                 \
 
+GPIO_PCLK_CONFIGURE(DECLARATION_FUNCS);
+
 #define SPI_PCLK_CONFIGURE(func)                                \
         func(SPI1, 12, APB2ENR)                                 \
         func(SPI2, 14, APB1ENR)                                 \
         func(SPI3, 15, APB1ENR)                                 \
         func(SPI4, 13, APB2ENR)                                 \
         
+SPI_PCLK_CONFIGURE(DECLARATION_FUNCS);
+
 #define I2C_PCLK_CONFIGURE(func)                                \
         func(I2C1, 21, APB1ENR)                                 \
         func(I2C2, 22, APB1ENR)                                 \
         func(I2C3, 23, APB1ENR)                                 \
+
+I2C_PCLK_CONFIGURE(DECLARATION_FUNCS);
 
 #define USART_PCLK_CONFIGURE(func)                              \
         func(USART1, 4, APB2ENR)                                \
@@ -275,19 +286,11 @@ typedef struct
         func(UART5, 20, APB1ENR)                                \
         func(USART6, 5, APB1ENR)                                \
 
+USART_PCLK_CONFIGURE(DECLARATION_FUNCS);
+
 #define SYSCFG_PCLK_CONFIGURE(func)                             \
         func(SYSCFG, 14, APB2ENR)                               \
 
-/* Prototype */
-#define DECLARATION_FUNCS(NAME,VALUE,REG)                       \
-        void NAME##_PCLK_EN(void);                              \
-        void NAME##_PCLK_DI(void);                              \
-
-/* Function Declaration */
-GPIO_PCLK_CONFIGURE(DECLARATION_FUNCS);
-SPI_PCLK_CONFIGURE(DECLARATION_FUNCS);
-I2C_PCLK_CONFIGURE(DECLARATION_FUNCS);
-USART_PCLK_CONFIGURE(DECLARATION_FUNCS);
 SYSCFG_PCLK_CONFIGURE(DECLARATION_FUNCS);
 
 // =========================================== Value definitions =========================================== //
