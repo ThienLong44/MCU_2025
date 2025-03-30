@@ -1,0 +1,5 @@
+"./Application/main.o"
+"./Application/syscalls.o"
+"./Application/sysmem.o"
+"./Driver/src/GlobalVariables.o"
+"./Startup/startup_stm32f401retx.o"
