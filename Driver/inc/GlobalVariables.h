@@ -13,21 +13,23 @@
 /*
  * ARM Coxtex M4 NVIC
  */
-#define NIVIC_BASE_ADDR		((__vo uint32_t*)0xE000E000U)
+#define NVIC_BASEADDR		((__vo uint32_t*)0xE000E000U)
 
+#define NVIC_ISRx      ((__vo uint32_t*)0xE000E100U)
+#define NVIC_ICRx      ((__vo uint32_t*)0xE000E180U)
 /*
  * ARM Cortex M4 basse addrss of Flash and SRAM memories
  */
 #define FLASH_BASEADDR			     0x08000000U
 #define SRAM1_BASEADDR			     0x20000000U
 #define SRAM2_BASEADDR			     0x2001C000U
-#define ROM_BASEADDR			     0x1FFF0000U
-#define SRAM 				     SRAM1_BASEADDR
+#define ROM_BASEADDR			       0x1FFF0000U
+#define SRAM 				             SRAM1_BASEADDR
 
 /*
  * AHBx and APBx Bus Peripheral base addresses
  */
-#define PERIPH_BASEADDR 		     0x40000000U
+#define PERIPH_BASEADDR 		       0x40000000U
 #define APB1PERIPH_BASEADDR		     PERIPH_BASEADDR
 #define APB2PERIPH_BASEADDR		     0x40010000U
 #define AHB1PERIPH_BASEADDR		     0x40020000U
@@ -55,14 +57,15 @@
  */
 
 /* I2C Peripherals */
-#define I2C1_BASEADDR			    (APB1PERIPH_BASEADDR + 0x5400)
-#define I2C2_BASEADDR			    (APB1PERIPH_BASEADDR + 0x5800)
-#define I2C3_BASEADDR			    (APB1PERIPH_BASEADDR + 0x5C00)
+#define I2C1_BASEADDR			      (APB1PERIPH_BASEADDR + 0x5400)
+#define I2C2_BASEADDR			      (APB1PERIPH_BASEADDR + 0x5800)
+#define I2C3_BASEADDR			      (APB1PERIPH_BASEADDR + 0x5C00)
 
-/* SPI Peripherals */ 
-#define SPI2_BASEADDR			    (APB1PERIPH_BASEADDR + 0x3800)
-#define SPI3_BASEADDR			    (APB1PERIPH_BASEADDR + 0x3C00)
-#define SPI4_BASEADDR			    (APB1PERIPH_BASEADDR + 0x3400)
+/* SPI Peripherals */
+#define SPI1_BASEADDR			      (APB2PERIPH_BASEADDR + 0x3000) 
+#define SPI2_BASEADDR			      (APB1PERIPH_BASEADDR + 0x3800)
+#define SPI3_BASEADDR			      (APB1PERIPH_BASEADDR + 0x3C00)
+#define SPI4_BASEADDR			      (APB1PERIPH_BASEADDR + 0x3400)
 
 /* USART Peripherals */
 #define USART2_BASEADDR			    (APB1PERIPH_BASEADDR + 0x4400)
@@ -73,9 +76,9 @@
 /*
  * APB2 Peripheral base addresses   
  */
-#define EXTI_BASEADDR			    (APB2PERIPH_BASEADDR + 0x3C00)
-#define SPI1_BASEADDR			    (APB2PERIPH_BASEADDR + 0x3000)
-#define SYSCFG_BASEADDR        		    (APB2PERIPH_BASEADDR + 0x3800)
+#define EXTI_BASEADDR			      (APB2PERIPH_BASEADDR + 0x3C00)
+#define SPI1_BASEADDR			      (APB2PERIPH_BASEADDR + 0x3000)
+#define SYSCFG_BASEADDR         (APB2PERIPH_BASEADDR + 0x3800)
 #define USART1_BASEADDR			    (APB2PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR			    (APB2PERIPH_BASEADDR + 0x1400)
 
@@ -191,6 +194,22 @@ typedef struct
   __vo uint32_t GTPR;       
 } USART_RegDef_t;
 
+typedef struct
+{
+  __vo uint32_t ISER0;
+  __vo uint32_t ISER1;
+  __vo uint32_t ISER2;
+  __vo uint32_t ISER3;
+}NVIC_RegDef_t;
+
+typedef struct
+{
+  __vo uint32_t ICER0;
+  __vo uint32_t ICER1;
+  __vo uint32_t ICER2;
+  __vo uint32_t ICER3;
+}NVIC_ICER_RegDef_t;
+
 // =========================================== Peripheral Definitions =========================================== //
 
 #define GPIOA  				((GPIO_RegDef_t*)GPIOA_BASEADDR)
@@ -203,8 +222,8 @@ typedef struct
 #define GPIOH  				((GPIO_RegDef_t*)GPIOH_BASEADDR)
 #define GPIOI  				((GPIO_RegDef_t*)GPIOI_BASEADDR)
 
-#define RCC 				((RCC_RegDef_t*)RCC_BASEADDR)
-#define EXTI				((EXTI_RegDef_t*)EXTI_BASEADDR)
+#define RCC 				  ((RCC_RegDef_t*)RCC_BASEADDR)
+#define EXTI				  ((EXTI_RegDef_t*)EXTI_BASEADDR)
 #define SYSCFG				((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
 
 
@@ -223,6 +242,8 @@ typedef struct
 #define UART5  				((USART_RegDef_t*)UART5_BASEADDR)
 #define USART6  			((USART_RegDef_t*)USART6_BASEADDR)
 
+#define NVIC_ISER     ((NVIC_RegDef_t*)NVIC_BASEADDR)
+#define NVIC_ICER     ((NVIC_ICER_RegDef_t*)NVIC_BASEADDR)
 // =========================================== Clock Enable and Disable =========================================== //
 #define GPIO_PCLK_CONFIGURE(func)                               \
         func(GPIOA, 0, AHB1ENR)                                 \
@@ -262,7 +283,7 @@ typedef struct
         void NAME##_PCLK_EN(void);                              \
         void NAME##_PCLK_DI(void);                              \
 
-
+/* Function Declaration */
 GPIO_PCLK_CONFIGURE(DECLARATION_FUNCS);
 SPI_PCLK_CONFIGURE(DECLARATION_FUNCS);
 I2C_PCLK_CONFIGURE(DECLARATION_FUNCS);
