@@ -1,5 +1,5 @@
-#ifndef __GLOBAL_VARIABLES_H
-#define __GLOBAL_VARIABLES_H
+#ifndef __GLOBAL_VARIABLES_H__
+#define __GLOBAL_VARIABLES_H__
 
 #include<stddef.h>
 #include<stdint.h>
@@ -290,5 +290,15 @@ I2C_PCLK_CONFIGURE(DECLARATION_FUNCS);
 USART_PCLK_CONFIGURE(DECLARATION_FUNCS);
 SYSCFG_PCLK_CONFIGURE(DECLARATION_FUNCS);
 
+// =========================================== Value definitions =========================================== //
+#define ENABLE 				1
+#define DISABLE 			0
 
-#endif // __GLOBAL_VARIABLES_H
+
+
+
+
+
+
+
+#endif // __GLOBAL_VARIABLES_H__
